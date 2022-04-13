@@ -3,7 +3,7 @@ import Visualizer from "./components/Visualizer";
 function App() {
   return (
     <div className="App">
-    <h1>V</h1>
+    <h1>Music Player</h1>
     <Visualizer />
     </div>
   );
