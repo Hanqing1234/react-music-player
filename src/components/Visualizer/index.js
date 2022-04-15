@@ -3,7 +3,7 @@ import useAudioVisualization from "../../hooks/useAudioVisualization";
 import audioUrl from '../../assets/test.flac';
 
 const Visualizer = () => {
-  const {visualize} = useAudioVisualization('#canvas', 10);
+  const {visualize} = useAudioVisualization('#canvas', 50);
 
   const audioRef = useRef(null);
 

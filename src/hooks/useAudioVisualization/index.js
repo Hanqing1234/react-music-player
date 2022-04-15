@@ -1,7 +1,7 @@
 import {useRef} from "react";
-import {drawCanvas, clearCanvas, drawFloats} from "./drawUtils";
+import {clearCanvas, drawBars, drawFloats} from "./drawUtils";
 
-const useAudioVisualization = (selector, maxLength = 128) => {
+const useAudioVisualization = (selector, length = 50) => {
   const audioCtxRef = useRef();
   const analyserRef = useRef();
 
@@ -13,10 +13,12 @@ const useAudioVisualization = (selector, maxLength = 128) => {
     if (analyserRef.current) {
       // Load data
       analyserRef.current.getByteFrequencyData(dataArray);
+      // Update length
+      const bars = dataArray.slice(0, Math.min(length, dataArray.length));
       // Draw canvas
       clearCanvas(canvasEl);
-      drawCanvas(canvasEl, dataArray);
-      drawFloats(canvasEl, dataArray);
+      drawBars(canvasEl, bars);
+      drawFloats(canvasEl, bars);
     }
   }
 
