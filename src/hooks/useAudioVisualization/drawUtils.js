@@ -9,6 +9,8 @@ const DROP_DISTANCE = 1;
 
 const BORDER_WIDTH = 1;
 
+const HEIGHT_RATIO = 0.6;
+
 export const clearCanvas = (canvasEl) => {
   // Visualization
   const canvasWidth = canvasEl.width;
@@ -49,7 +51,7 @@ export const drawFloats = (canvasEl, dataArray) => {
   let x = 0;
 
   for (let i = 0; i < floats.length; i++) {
-    const floatHeight = floats[i];
+    const floatHeight = floats[i] * HEIGHT_RATIO;
 
     canvasCtx.fillStyle = "00C66C";
     canvasCtx.fillRect(x, canvasHeight - floatHeight, barWidth, FLOAT_HEIGHT);
@@ -71,7 +73,7 @@ export const drawBars = (canvasEl, dataArray) => {
   let x = 0;
 
   for (let i = 0; i < dataArray.length; i++) {
-    const barHeight = dataArray[i];
+    const barHeight = dataArray[i] * HEIGHT_RATIO;
 
     // Add gradient color
     const gradient = canvasCtx.createLinearGradient(
