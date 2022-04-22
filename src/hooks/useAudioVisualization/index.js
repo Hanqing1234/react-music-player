@@ -4,11 +4,12 @@ import {clearCanvas, drawBars, drawFloats} from "./drawUtils";
 const useAudioVisualization = (selector, length = 50) => {
   const audioCtxRef = useRef();
   const analyserRef = useRef();
+  const requestAnimationFrameIdRef = useRef();
 
   // Draw canvas in each frame
   const drawEachFrame = (canvasEl, dataArray) => {
     // recursively call draw
-    requestAnimationFrame(() => drawEachFrame(canvasEl, dataArray));
+    requestAnimationFrameIdRef.current = requestAnimationFrame(() => drawEachFrame(canvasEl, dataArray));
 
     if (analyserRef.current) {
       // Load data
@@ -47,7 +48,19 @@ const useAudioVisualization = (selector, length = 50) => {
     drawEachFrame(canvasEl, dataArray);
   }
 
-  return { visualize, clearCanvas };
+  const stopVisualize = () => {
+    if(requestAnimationFrameIdRef.current) {
+      Window.cancelAnimationFrame(requestAnimationFrameIdRef.current);
+    }
+  };
+
+  return {
+    visualize,
+    stopVisualize,
+    clearCanvas,
+    requestAnimationFrameId: requestAnimationFrameIdRef.current,
+  };
+
 }
 
 export default useAudioVisualization;

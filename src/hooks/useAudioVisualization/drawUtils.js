@@ -9,7 +9,7 @@ const DROP_DISTANCE = 1;
 
 const BORDER_WIDTH = 1;
 
-const HEIGHT_RATIO = 0.6;
+const HEIGHT_RATIO = 1;
 
 export const clearCanvas = (canvasEl) => {
   // Visualization
