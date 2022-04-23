@@ -44,7 +44,7 @@ export const drawFloats = (canvasEl, dataArray) => {
         ? item + FLOAT_HEIGHT + PUSH_HEIGHT
         : floats[index] - DROP_DISTANCE;
 
-    floats[index] = Math.max(floats[index], FLOAT_HEIGHT);
+    floats[index] = Math.max(floats[index], item, FLOAT_HEIGHT);
   });
 
   const barWidth = canvasWidth / dataArray.length;

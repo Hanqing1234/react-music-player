@@ -1,15 +1,15 @@
 import {useRef} from "react";
-import {clearCanvas, drawBars, drawFloats} from "./drawUtils";
+import {clearCanvas as utilsClearCanvas, drawBars, drawFloats} from "./drawUtils";
 
 const useAudioVisualization = (selector, length = 50) => {
   const audioCtxRef = useRef();
   const analyserRef = useRef();
-  const requestAnimationFrameIdRef = useRef();
+  const requestAnimateFrameIdRef = useRef();
 
   // Draw canvas in each frame
   const drawEachFrame = (canvasEl, dataArray) => {
     // recursively call draw
-    requestAnimationFrameIdRef.current = requestAnimationFrame(() => drawEachFrame(canvasEl, dataArray));
+    requestAnimateFrameIdRef.current = requestAnimationFrame(() => drawEachFrame(canvasEl, dataArray));
 
     if (analyserRef.current) {
       // Load data
@@ -17,7 +17,7 @@ const useAudioVisualization = (selector, length = 50) => {
       // Update length
       const bars = dataArray.slice(0, Math.min(length, dataArray.length));
       // Draw canvas
-      clearCanvas(canvasEl);
+      utilsClearCanvas(canvasEl);
       drawBars(canvasEl, bars);
       drawFloats(canvasEl, bars);
     }
@@ -47,18 +47,35 @@ const useAudioVisualization = (selector, length = 50) => {
     // Start drawing recursion
     drawEachFrame(canvasEl, dataArray);
   }
+  // reset canvas
+  const resetCanvas = () => {
+    const canvasEl = document.querySelector(selector);
+    if (canvasEl) {
+      const emptyDataArray = (new Uint8Array(length)).map(() => 4);
+      drawFloats(canvasEl, emptyDataArray);
+    }
+  }
+
+  const clearCanvas = () => {
+    const canvasEl = document.querySelector(selector);
+    if (canvasEl) {
+      utilsClearCanvas(canvasEl);
+    }
+  };
 
   const stopVisualize = () => {
-    if(requestAnimationFrameIdRef.current) {
-      Window.cancelAnimationFrame(requestAnimationFrameIdRef.current);
+    if(requestAnimateFrameIdRef.current) {
+      Window.cancelAnimationFrame(requestAnimateFrameIdRef.current);
+      resetCanvas();
     }
   };
 
   return {
     visualize,
     stopVisualize,
+    resetCanvas,
     clearCanvas,
-    requestAnimationFrameId: requestAnimationFrameIdRef.current,
+    requestAnimateFrameId: requestAnimateFrameIdRef.current,
   };
 
 }
